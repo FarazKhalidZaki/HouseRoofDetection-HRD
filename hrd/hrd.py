@@ -6,20 +6,18 @@ w,h,c = img.shape
 
 img_gray = cv2.cvtColor(img,cv2.COLOR_RGB2GRAY)
 
-clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(50, 50))
+clahe = cv2.createCLAHE(clipLimit=3.5, tileGridSize=(40, 40))
 c_img = clahe.apply(img_gray)
 cv2.imshow("c_img",c_img)
 cv2.imwrite("../c_img.jpg",c_img)
 # thr = cv2.adaptiveThreshold(img_gray,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY,7,3)
 ret,thr = cv2.threshold(c_img,50,255,cv2.THRESH_TRIANGLE,None)
 
-kernel = np.ones((3,3),np.uint8)
-opening = cv2.morphologyEx(thr,cv2.MORPH_OPEN,kernel, iterations = 2)
 
-cannyImg = cv2.Canny(thr,50,150,None,3,True)
-
-cornerHarris = cv2.cornerHarris(np.float32(img_gray),7,5,0.229)
-# thr = cv2.dilate(thr,kernel,iterations=2)
+# cannyImg = cv2.Canny(thr,50,150,None,3,True)
+#
+# cornerHarris = cv2.cornerHarris(np.float32(img_gray),7,5,0.229)
+# # thr = cv2.dilate(thr,kernel,iterations=2)
 
 cv2.imshow("thr",thr)
 
