@@ -30,7 +30,7 @@ cv2.resizeWindow("w1", w/2,h/2)
 
 i=0
 for cnt in contuors:
-    approx = cv2.approxPolyDP(cnt,0.0001*cv2.arcLength(cnt,True),True)
+    approx = cv2.approxPolyDP(cnt,0.00005*cv2.arcLength(cnt,True),True)
     print  approx
 
     imgWithContuors = cv2.drawContours(img, [approx], -1, (255*np.random.random(),255*np.random.random(), 255*np.random.random()), -1)
