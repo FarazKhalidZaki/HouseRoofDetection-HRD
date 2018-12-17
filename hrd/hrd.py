@@ -6,20 +6,18 @@ w,h,c = img.shape
 
 img_gray = cv2.cvtColor(img,cv2.COLOR_RGB2GRAY)
 
-clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(50, 50))
+clahe = cv2.createCLAHE(clipLimit=4.0, tileGridSize=(5, 5))
 c_img = clahe.apply(img_gray)
 cv2.imshow("c_img",c_img)
 cv2.imwrite("../c_img.jpg",c_img)
-# thr = cv2.adaptiveThreshold(img_gray,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY,7,3)
-ret,thr = cv2.threshold(c_img,50,255,cv2.THRESH_TRIANGLE,None)
+thr = cv2.adaptiveThreshold(c_img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,71,9)
+# ret,thr = cv2.threshold(c_img,50,255,cv2.THRESH_OTSU,None)
 
-kernel = np.ones((3,3),np.uint8)
-opening = cv2.morphologyEx(thr,cv2.MORPH_OPEN,kernel, iterations = 2)
 
-cannyImg = cv2.Canny(thr,50,150,None,3,True)
-
-cornerHarris = cv2.cornerHarris(np.float32(img_gray),7,5,0.229)
-# thr = cv2.dilate(thr,kernel,iterations=2)
+# cannyImg = cv2.Canny(thr,50,150,None,3,True)
+#
+# cornerHarris = cv2.cornerHarris(np.float32(img_gray),7,5,0.229)
+# # thr = cv2.dilate(thr,kernel,iterations=2)
 
 cv2.imshow("thr",thr)
 
@@ -30,7 +28,7 @@ cv2.resizeWindow("w1", w/2,h/2)
 
 i=0
 for cnt in contuors:
-    approx = cv2.approxPolyDP(cnt,0.0001*cv2.arcLength(cnt,True),True)
+    approx = cv2.approxPolyDP(cnt,0.00005*cv2.arcLength(cnt,True),True)
     print  approx
 
     imgWithContuors = cv2.drawContours(img, [approx], -1, (255*np.random.random(),255*np.random.random(), 255*np.random.random()), -1)
